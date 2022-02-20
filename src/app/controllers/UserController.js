@@ -46,19 +46,25 @@ class UserController {
                     res.cookie("fullname", fullname, {
                         httpOnly: false
                     })
+                    res.cookie("email", email, {
+                        httpOnly: false
+                    })
                     handlebars.registerHelper('accessToken', accessToken)
                     handlebars.registerHelper('fullname', fullname)
+                    handlebars.registerHelper('email', email)
                     // res.json({accessToken});
                     res.redirect('/');
                 } else {
                     handlebars.unregisterHelper('accessToken');
                     handlebars.unregisterHelper('fullname');
+                    handlebars.unregisterHelper('email');
                     res.status(300).json('Email hoac mat khau khong dung!');
                 }
             })
             .catch(err => {
                 handlebars.unregisterHelper('accessToken');
                 handlebars.unregisterHelper('fullname');
+                handlebars.unregisterHelper('email');
                 res.status(500).json('Dang nhap that bai!');
             })
     }
@@ -112,13 +118,14 @@ class UserController {
     }
 
     logout (req, res, next) {
-        console.log('res: ', res)
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
         res.clearCookie("fullname");
+        res.clearCookie("email");
         refreshTokens = refreshTokens.filter(token => token !== req.cookies.refreshToken);
         handlebars.unregisterHelper('accessToken');
         handlebars.unregisterHelper('fullname');
+        handlebars.unregisterHelper('email');
         res.redirect('/user/login');
     }
 }

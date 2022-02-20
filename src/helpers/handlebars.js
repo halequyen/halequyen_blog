@@ -7,6 +7,13 @@ Handlebars.registerHelper('if_exists', function (value, options) {
     return value.length > 0 ? options.fn(this) : options.inverse(this);
 })
 
+Handlebars.registerHelper('is_admin', function (value, options) {
+    if (value && value == 'halequyen19042001@gmail.com') {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+})
+
 module.exports = {
     sum: (a, b) => a + b,
     sortable: (field, sort) => {
